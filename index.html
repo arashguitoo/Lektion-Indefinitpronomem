@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indefinitpronomen – Schritt für Schritt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --bg: #fefae0;
+            --card: #ffffff;
+            --text: #1b4332;
+            --text-light: #52796f;
+            --success: #38b000;
+            --error: #d62828;
+            --shadow: 0 4px 20px rgba(45, 106, 79, 0.15);
+            --nom-color: #3498db;
+            --akk-color: #e74c3c;
+            --dat-color: #9b59b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .step-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .step-btn {
+            min-width: 40px;
+            height: 40px;
+            padding: 0 12px;
+            border-radius: 20px;
+            border: 3px solid var(--primary-light);
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .step-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .step-btn.completed {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .step-btn.nom { border-color: var(--nom-color); color: var(--nom-color); }
+        .step-btn.nom.active, .step-btn.nom.completed { background: var(--nom-color); color: white; border-color: var(--nom-color); }
+        
+        .step-btn.akk { border-color: var(--akk-color); color: var(--akk-color); }
+        .step-btn.akk.active, .step-btn.akk.completed { background: var(--akk-color); color: white; border-color: var(--akk-color); }
+        
+        .step-btn.dat { border-color: var(--dat-color); color: var(--dat-color); }
+        .step-btn.dat.active, .step-btn.dat.completed { background: var(--dat-color); color: white; border-color: var(--dat-color); }
+
+        .step-btn.test-btn {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .step-btn.test-btn:hover {
+            background: #e07000;
+        }
+
+        /* Content Cards */
+        .lesson-step {
+            display: none;
+            background: var(--card);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .lesson-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px dashed var(--primary-light);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .step-number.nom { background: var(--nom-color); }
+        .step-number.akk { background: var(--akk-color); }
+        .step-number.dat { background: var(--dat-color); }
+
+        .step-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+        }
+
+        /* Content Styles */
+        .explanation {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+        }
+
+        .explanation h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .explanation.nom { border-left-color: var(--nom-color); background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
+        .explanation.akk { border-left-color: var(--akk-color); background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); }
+        .explanation.dat { border-left-color: var(--dat-color); background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+        }
+
+        .key-point h3 {
+            color: #e07000;
+            margin-bottom: 10px;
+        }
+
+        .example-box {
+            background: white;
+            border: 2px solid var(--primary-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .example-box.nom { border-color: var(--nom-color); }
+        .example-box.akk { border-color: var(--akk-color); }
+        .example-box.dat { border-color: var(--dat-color); }
+
+        .example-box .label {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .example-box.nom .label { background: var(--nom-color); }
+        .example-box.akk .label { background: var(--akk-color); }
+        .example-box.dat .label { background: var(--dat-color); }
+
+        .example-sentence {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: var(--accent-light);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+
+        .highlight-noun {
+            background: #a8dadc;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+
+        .arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        /* Tables */
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+        }
+
+        .grammar-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 8px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .grammar-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .grammar-table tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .grammar-table tr:hover {
+            background: #e8f5e9;
+        }
+
+        .grammar-table tr.nom-row { background: #e3f2fd; }
+        .grammar-table tr.akk-row { background: #ffebee; }
+        .grammar-table tr.dat-row { background: #f3e5f5; }
+
+        /* Interactive Exercises */
+        .exercise-area {
+            background: #f0f7f4;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .exercise-area.nom { background: #e3f2fd; }
+        .exercise-area.akk { background: #ffebee; }
+        .exercise-area.dat { background: #f3e5f5; }
+
+        .exercise-area h3 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exercise-area h3::before {
+            content: "✏️";
+        }
+
+        .exercise-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-item.correct {
+            border-color: var(--success);
+            background: #e8f5e9;
+        }
+
+        .exercise-item.incorrect {
+            border-color: var(--error);
+            background: #ffebee;
+        }
+
+        .exercise-sentence {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 12px 15px;
+            border: 2px solid var(--primary-light);
+            border-radius: 10px;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct-answer {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .option-btn.wrong-answer {
+            background: var(--error);
+            border-color: var(--error);
+            color: white;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn.prev {
+            background: #e0e0e0;
+            color: var(--text);
+        }
+
+        .nav-btn.next {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Case badges */
+        .case-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            margin: 5px;
+        }
+
+        .case-badge.nom { background: var(--nom-color); }
+        .case-badge.akk { background: var(--akk-color); }
+        .case-badge.dat { background: var(--dat-color); }
+
+        /* Test Section */
+        .test-section {
+            display: none;
+        }
+
+        .test-section.active {
+            display: block;
+        }
+
+        .password-gate {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .password-gate h2 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .password-gate p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .password-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px 20px;
+            border: 3px solid var(--primary-light);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .password-error {
+            color: var(--error);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .password-error.show {
+            display: block;
+        }
+
+        .submit-password {
+            padding: 15px 40px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-password:hover {
+            background: #e07000;
+            transform: scale(1.05);
+        }
+
+        /* Test Content */
+        .test-content {
+            display: none;
+        }
+
+        .test-content.active {
+            display: block;
+        }
+
+        .test-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #e07000 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .test-header h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+        }
+
+        .test-progress {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .test-progress-bar {
+            background: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .test-question {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .test-question.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Results */
+        .test-results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .test-results.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .result-message {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .retry-btn {
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .retry-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Memory tip */
+        .memory-tip {
+            background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #7b1fa2;
+        }
+
+        .memory-tip h3 {
+            color: #4a148c;
+            margin-bottom: 10px;
+        }
+
+        .memory-tip h3::before {
+            content: "💡 ";
+        }
+
+        /* Mini table for single case */
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .mini-table th {
+            padding: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .mini-table.nom th { background: var(--nom-color); }
+        .mini-table.akk th { background: var(--akk-color); }
+        .mini-table.dat th { background: var(--dat-color); }
+
+        .mini-table td {
+            padding: 10px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px 15px;
+                border-radius: 0 0 20px 20px;
+            }
+
+            .lesson-step {
+                padding: 20px;
+            }
+
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .grammar-table {
+                font-size: 0.85rem;
+            }
+
+            .grammar-table th, .grammar-table td {
+                padding: 8px 5px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                justify-content: center;
+            }
+
+            .step-btn {
+                min-width: 35px;
+                height: 35px;
+                font-size: 0.75rem;
+                padding: 0 8px;
+            }
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 15px;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔤 Indefinitpronomen</h1>
+        <p>Schritt für Schritt mit Übungen!</p>
+    </header>
+
+    <div class="container">
+        <!-- Navigation -->
+        <div class="nav-container">
+            <div class="nav-title">📚 Dein Weg</div>
+            <div class="step-nav">
+                <button class="step-btn active" onclick="goToCover()">🏠</button>
+                <button class="step-btn" onclick="goToStep(1)">Start</button>
+                <button class="step-btn nom" onclick="goToStep(2)">NOM</button>
+                <button class="step-btn nom" onclick="goToStep(3)">Übung</button>
+                <button class="step-btn akk" onclick="goToStep(4)">AKK</button>
+                <button class="step-btn akk" onclick="goToStep(5)">Übung</button>
+                <button class="step-btn dat" onclick="goToStep(6)">DAT</button>
+                <button class="step-btn dat" onclick="goToStep(7)">Übung</button>
+                <button class="step-btn" onclick="goToStep(8)">Alles</button>
+                <button class="step-btn test-btn" onclick="goToTest()">🔮 ???</button>
+            </div>
+        </div>
+
+        <!-- COVER -->
+        <div class="lesson-step active" id="cover">
+            <div style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 5rem; margin-bottom: 20px;">📚</div>
+                <h1 style="font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--primary-dark); margin-bottom: 15px;">Indefinitpronomen</h1>
+                <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 30px;">einer, eine, eins, welche, keiner...</p>
+                
+                <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: left;">
+                    <p style="font-size: 1.1rem; margin-bottom: 15px;">📖 In dieser Lektion lernst du:</p>
+                    <p style="margin: 8px 0;">✅ Was Indefinitpronomen sind</p>
+                    <p style="margin: 8px 0;">✅ <span style="color: var(--nom-color); font-weight: 700;">Nominativ</span> – Wer? Was?</p>
+                    <p style="margin: 8px 0;">✅ <span style="color: var(--akk-color); font-weight: 700;">Akkusativ</span> – Wen? Was?</p>
+                    <p style="margin: 8px 0;">✅ <span style="color: var(--dat-color); font-weight: 700;">Dativ</span> – Wem?</p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); border-radius: 20px; padding: 20px; margin: 20px 0;">
+                    <p style="font-size: 1.1rem;">🔮 <strong>Geheimnis:</strong> Am Ende wartet ein Geheimwort auf dich!</p>
+                    <p style="color: #636e72; margin-top: 10px;">Damit öffnest du die <strong>Geheime Arena</strong>...</p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); border-radius: 20px; padding: 20px; margin: 20px 0;">
+                    <p style="color: white; font-size: 1.1rem;">🏅 <strong>Belohnung:</strong></p>
+                    <p style="color: white; font-family: 'Fredoka One', cursive; font-size: 1.5rem;">+8 Punkte für deine Liga!</p>
+                </div>
+
+                <button onclick="startLesson()" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; border: none; padding: 20px 50px; border-radius: 30px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 20px rgba(45, 106, 79, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    Bist du bereit? Los geht's! 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 1: Einführung -->
+        <div class="lesson-step" id="step1">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h2 class="step-title">Was sind Indefinitpronomen?</h2>
+            </div>
+
+            <div class="explanation">
+                <h3>🎯 Die Idee ist einfach!</h3>
+                <p>Manchmal wollen wir ein Wort nicht wiederholen. Dann nehmen wir ein <strong>Pronomen</strong>.</p>
+            </div>
+
+            <div class="example-box">
+                <span class="label">Beispiel</span>
+                <p class="example-sentence">
+                    Ich brauche <span class="highlight-noun">einen Stift</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Hier ist <span class="highlight">einer</span>!
+                </p>
+                <p style="margin-top: 15px; color: var(--text-light);">
+                    <strong>"einer"</strong> steht für <strong>"ein Stift"</strong>. 
+                    Welcher Stift genau? Das wissen wir nicht – irgendeiner!
+                </p>
+            </div>
+
+            <div class="key-point">
+                <h3>⚡ Das musst du wissen!</h3>
+                <p>Das Pronomen braucht:<br>
+                1. Das gleiche <strong>Geschlecht</strong> (der/die/das)<br>
+                2. Den gleichen <strong>Kasus</strong> (Nominativ/Akkusativ/Dativ)</p>
+            </div>
+
+            <div class="explanation">
+                <h3>📋 Die wichtigsten Wörter</h3>
+                <p><strong>Ja:</strong> einer, eine, eins, welche<br>
+                <strong>Nein:</strong> keiner, keine, keins</p>
+            </div>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <span class="case-badge nom">NOMINATIV = Wer?</span>
+                <span class="case-badge akk">AKKUSATIV = Wen? Was?</span>
+                <span class="case-badge dat">DATIV = Wem?</span>
+            </div>
+
+            <div class="memory-tip">
+                <h3>Tipp</h3>
+                <p>Wir lernen jetzt jeden Kasus einzeln – mit Übungen! So wird es leicht. 💪</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" disabled>← Zurück</button>
+                <button class="nav-btn next" onclick="nextStep()">Weiter: Nominativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 2: NOMINATIV Erklärung -->
+        <div class="lesson-step" id="step2">
+            <div class="step-header">
+                <div class="step-number nom">2</div>
+                <h2 class="step-title">NOMINATIV – Wer? Was?</h2>
+            </div>
+
+            <div class="explanation nom">
+                <h3>🔵 Was ist Nominativ?</h3>
+                <p>Nominativ = das <strong>Subjekt</strong> im Satz.<br>
+                Frage: <strong>Wer?</strong> oder <strong>Was?</strong></p>
+            </div>
+
+            <div class="example-box nom">
+                <span class="label">Nominativ – Wer liegt da?</span>
+                <p class="example-sentence">
+                    <span class="highlight-noun">Ein Stift</span> liegt auf dem Tisch.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> <span class="highlight">Einer</span> liegt auf dem Tisch.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Wer liegt? → Der Stift (maskulin) → <strong>einer</strong></p>
+            </div>
+
+            <div class="example-box nom">
+                <span class="label">Nominativ – Was ist das?</span>
+                <p class="example-sentence">
+                    Das ist <span class="highlight-noun">eine Tasse</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Das ist <span class="highlight">eine</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Was ist das? → Die Tasse (feminin) → <strong>eine</strong></p>
+            </div>
+
+            <div class="example-box nom">
+                <span class="label">Nominativ – Was liegt hier?</span>
+                <p class="example-sentence">
+                    <span class="highlight-noun">Ein Handy</span> liegt hier.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> <span class="highlight">Eins</span> liegt hier.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Was liegt? → Das Handy (neutral) → <strong>eins</strong></p>
+            </div>
+
+            <div class="key-point">
+                <h3>📝 Nominativ – Die Formen</h3>
+                <table class="mini-table nom">
+                    <tr>
+                        <th>der (mask.)</th>
+                        <th>das (neutr.)</th>
+                        <th>die (fem.)</th>
+                        <th>die (Plural)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>einer</strong></td>
+                        <td><strong>eins</strong></td>
+                        <td><strong>eine</strong></td>
+                        <td><strong>welche</strong></td>
+                    </tr>
+                    <tr>
+                        <td>keiner</td>
+                        <td>keins</td>
+                        <td>keine</td>
+                        <td>keine</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="memory-tip">
+                <h3>Merke dir</h3>
+                <p>• mask. → ein<strong>er</strong> (wie d<strong>er</strong>)<br>
+                • neutr. → ein<strong>s</strong><br>
+                • fem. → ein<strong>e</strong> (wie di<strong>e</strong>)</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: var(--nom-color);" onclick="nextStep()">Übung Nominativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: NOMINATIV Übung -->
+        <div class="lesson-step" id="step3">
+            <div class="step-header">
+                <div class="step-number nom">✏️</div>
+                <h2 class="step-title">Übung: NOMINATIV</h2>
+            </div>
+
+            <div class="exercise-area nom">
+                <h3>Wähle die richtige Form!</h3>
+
+                <div class="exercise-item" id="nom-ex1">
+                    <p class="exercise-sentence">Hier liegt <strong>ein Löffel</strong> (der). → Hier liegt ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('nom-ex1', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex1', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex1', 'eins', this)">eins</button>
+                    </div>
+                    <div class="feedback" id="nom-ex1-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="nom-ex2">
+                    <p class="exercise-sentence">Das ist <strong>eine Gabel</strong> (die). → Das ist ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('nom-ex2', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex2', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex2', 'eins', this)">eins</button>
+                    </div>
+                    <div class="feedback" id="nom-ex2-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="nom-ex3">
+                    <p class="exercise-sentence">Hier ist <strong>ein Messer</strong> (das). → Hier ist ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('nom-ex3', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex3', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex3', 'eins', this)">eins</button>
+                    </div>
+                    <div class="feedback" id="nom-ex3-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="nom-ex4">
+                    <p class="exercise-sentence">Hier liegen <strong>Teller</strong> (Plural). → Hier liegen ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('nom-ex4', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex4', 'welche', this)">welche</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex4', 'einer', this)">einer</button>
+                    </div>
+                    <div class="feedback" id="nom-ex4-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="nom-ex5">
+                    <p class="exercise-sentence">Ist hier <strong>ein Computer</strong> (der)? – Nein, hier ist ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('nom-ex5', 'keine', this)">keine</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex5', 'keiner', this)">keiner</button>
+                        <button class="option-btn" onclick="checkPractice('nom-ex5', 'keins', this)">keins</button>
+                    </div>
+                    <div class="feedback" id="nom-ex5-feedback"></div>
+                </div>
+
+                <div class="score-display" id="nom-score">Richtig: 0 / 5</div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: var(--akk-color);" onclick="nextStep()">Weiter: Akkusativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 4: AKKUSATIV Erklärung -->
+        <div class="lesson-step" id="step4">
+            <div class="step-header">
+                <div class="step-number akk">4</div>
+                <h2 class="step-title">AKKUSATIV – Wen? Was?</h2>
+            </div>
+
+            <div class="explanation akk">
+                <h3>🔴 Was ist Akkusativ?</h3>
+                <p>Akkusativ = das <strong>Objekt</strong> im Satz.<br>
+                Frage: <strong>Wen?</strong> oder <strong>Was?</strong><br>
+                Nach: haben, brauchen, suchen, kaufen, sehen, holen...</p>
+            </div>
+
+            <div class="example-box akk">
+                <span class="label">Akkusativ – Wen/Was brauchst du?</span>
+                <p class="example-sentence">
+                    Ich brauche <span class="highlight-noun">einen Stift</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich brauche <span class="highlight">einen</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Was brauche ich? → Den Stift (maskulin) → <strong>einen</strong></p>
+            </div>
+
+            <div class="example-box akk">
+                <span class="label">Akkusativ – Was hast du?</span>
+                <p class="example-sentence">
+                    Ich habe <span class="highlight-noun">eine Tasche</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich habe <span class="highlight">eine</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Was habe ich? → Die Tasche (feminin) → <strong>eine</strong></p>
+            </div>
+
+            <div class="example-box akk">
+                <span class="label">Akkusativ – Was siehst du?</span>
+                <p class="example-sentence">
+                    Ich sehe <span class="highlight-noun">ein Auto</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich sehe <span class="highlight">eins</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Was sehe ich? → Das Auto (neutral) → <strong>eins</strong></p>
+            </div>
+
+            <div class="key-point">
+                <h3>📝 Akkusativ – Die Formen</h3>
+                <table class="mini-table akk">
+                    <tr>
+                        <th>der (mask.)</th>
+                        <th>das (neutr.)</th>
+                        <th>die (fem.)</th>
+                        <th>die (Plural)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>einen</strong></td>
+                        <td><strong>eins</strong></td>
+                        <td><strong>eine</strong></td>
+                        <td><strong>welche</strong></td>
+                    </tr>
+                    <tr>
+                        <td>keinen</td>
+                        <td>keins</td>
+                        <td>keine</td>
+                        <td>keine</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="memory-tip">
+                <h3>Merke dir</h3>
+                <p>⚠️ Nur <strong>maskulin</strong> ändert sich!<br>
+                • Nominativ: ein<strong>er</strong><br>
+                • Akkusativ: ein<strong>en</strong><br><br>
+                Feminin, Neutral und Plural bleiben gleich!</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: var(--akk-color);" onclick="nextStep()">Übung Akkusativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 5: AKKUSATIV Übung -->
+        <div class="lesson-step" id="step5">
+            <div class="step-header">
+                <div class="step-number akk">✏️</div>
+                <h2 class="step-title">Übung: AKKUSATIV</h2>
+            </div>
+
+            <div class="exercise-area akk">
+                <h3>Wähle die richtige Form!</h3>
+
+                <div class="exercise-item" id="akk-ex1">
+                    <p class="exercise-sentence">Ich brauche <strong>einen Kugelschreiber</strong> (der). → Ich brauche ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('akk-ex1', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex1', 'einen', this)">einen</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex1', 'einem', this)">einem</button>
+                    </div>
+                    <div class="feedback" id="akk-ex1-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="akk-ex2">
+                    <p class="exercise-sentence">Hast du <strong>eine Schere</strong> (die)? → Hast du ___?</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('akk-ex2', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex2', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex2', 'einen', this)">einen</button>
+                    </div>
+                    <div class="feedback" id="akk-ex2-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="akk-ex3">
+                    <p class="exercise-sentence">Ich kaufe <strong>ein Buch</strong> (das). → Ich kaufe ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('akk-ex3', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex3', 'eine', this)">eine</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex3', 'eins', this)">eins</button>
+                    </div>
+                    <div class="feedback" id="akk-ex3-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="akk-ex4">
+                    <p class="exercise-sentence">Wir brauchen <strong>Äpfel</strong> (Plural). → Wir brauchen ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('akk-ex4', 'einen', this)">einen</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex4', 'welche', this)">welche</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex4', 'welchen', this)">welchen</button>
+                    </div>
+                    <div class="feedback" id="akk-ex4-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="akk-ex5">
+                    <p class="exercise-sentence">Ich suche <strong>einen Parkplatz</strong> (der). Ich finde ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('akk-ex5', 'keiner', this)">keiner</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex5', 'keinen', this)">keinen</button>
+                        <button class="option-btn" onclick="checkPractice('akk-ex5', 'keine', this)">keine</button>
+                    </div>
+                    <div class="feedback" id="akk-ex5-feedback"></div>
+                </div>
+
+                <div class="score-display" id="akk-score">Richtig: 0 / 5</div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: var(--dat-color);" onclick="nextStep()">Weiter: Dativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 6: DATIV Erklärung -->
+        <div class="lesson-step" id="step6">
+            <div class="step-header">
+                <div class="step-number dat">6</div>
+                <h2 class="step-title">DATIV – Wem?</h2>
+            </div>
+
+            <div class="explanation dat">
+                <h3>🟣 Was ist Dativ?</h3>
+                <p>Dativ = <strong>wem</strong> etwas passiert.<br>
+                Frage: <strong>Wem?</strong><br>
+                Nach: mit, von, zu, bei, nach, aus, helfen, geben, danken...</p>
+            </div>
+
+            <div class="example-box dat">
+                <span class="label">Dativ – Mit wem?</span>
+                <p class="example-sentence">
+                    Ich schreibe mit <span class="highlight-noun">einem Stift</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich schreibe mit <span class="highlight">einem</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Mit wem/was? → Mit dem Stift (maskulin) → <strong>einem</strong></p>
+            </div>
+
+            <div class="example-box dat">
+                <span class="label">Dativ – Wem hilfst du?</span>
+                <p class="example-sentence">
+                    Ich helfe <span class="highlight-noun">einer Frau</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich helfe <span class="highlight">einer</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Wem helfe ich? → Der Frau (feminin) → <strong>einer</strong></p>
+            </div>
+
+            <div class="example-box dat">
+                <span class="label">Dativ – Mit wem spielst du?</span>
+                <p class="example-sentence">
+                    Ich spiele mit <span class="highlight-noun">einem Kind</span>.
+                </p>
+                <p class="example-sentence">
+                    <span class="arrow">→</span> Ich spiele mit <span class="highlight">einem</span>.
+                </p>
+                <p style="color: var(--text-light); margin-top: 10px;">Mit wem? → Mit dem Kind (neutral) → <strong>einem</strong></p>
+            </div>
+
+            <div class="key-point">
+                <h3>📝 Dativ – Die Formen</h3>
+                <table class="mini-table dat">
+                    <tr>
+                        <th>der (mask.)</th>
+                        <th>das (neutr.)</th>
+                        <th>die (fem.)</th>
+                        <th>die (Plural)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>einem</strong></td>
+                        <td><strong>einem</strong></td>
+                        <td><strong>einer</strong></td>
+                        <td><strong>welchen</strong></td>
+                    </tr>
+                    <tr>
+                        <td>keinem</td>
+                        <td>keinem</td>
+                        <td>keiner</td>
+                        <td>keinen</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="memory-tip">
+                <h3>Merke dir</h3>
+                <p>• mask. + neutr. → ein<strong>em</strong> (wie d<strong>em</strong>)<br>
+                • fem. → ein<strong>er</strong> (wie d<strong>er</strong>)<br>
+                • Plural → welch<strong>en</strong> / kein<strong>en</strong></p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: var(--dat-color);" onclick="nextStep()">Übung Dativ →</button>
+            </div>
+        </div>
+
+        <!-- STEP 7: DATIV Übung -->
+        <div class="lesson-step" id="step7">
+            <div class="step-header">
+                <div class="step-number dat">✏️</div>
+                <h2 class="step-title">Übung: DATIV</h2>
+            </div>
+
+            <div class="exercise-area dat">
+                <h3>Wähle die richtige Form!</h3>
+
+                <div class="exercise-item" id="dat-ex1">
+                    <p class="exercise-sentence">Ich fahre mit <strong>einem Bus</strong> (der). → Ich fahre mit ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('dat-ex1', 'einen', this)">einen</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex1', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex1', 'einem', this)">einem</button>
+                    </div>
+                    <div class="feedback" id="dat-ex1-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="dat-ex2">
+                    <p class="exercise-sentence">Ich wohne bei <strong>einer Familie</strong> (die). → Ich wohne bei ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('dat-ex2', 'einem', this)">einem</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex2', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex2', 'eine', this)">eine</button>
+                    </div>
+                    <div class="feedback" id="dat-ex2-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="dat-ex3">
+                    <p class="exercise-sentence">Er spielt mit <strong>einem Ball</strong> (der). → Er spielt mit ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('dat-ex3', 'einen', this)">einen</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex3', 'einem', this)">einem</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex3', 'einer', this)">einer</button>
+                    </div>
+                    <div class="feedback" id="dat-ex3-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="dat-ex4">
+                    <p class="exercise-sentence">Sie kommt aus <strong>einem Land</strong> (das). → Sie kommt aus ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('dat-ex4', 'einer', this)">einer</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex4', 'einem', this)">einem</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex4', 'eins', this)">eins</button>
+                    </div>
+                    <div class="feedback" id="dat-ex4-feedback"></div>
+                </div>
+
+                <div class="exercise-item" id="dat-ex5">
+                    <p class="exercise-sentence">Ich rede mit <strong>Freunden</strong> (Plural). → Ich rede mit ___.</p>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkPractice('dat-ex5', 'welche', this)">welche</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex5', 'welchen', this)">welchen</button>
+                        <button class="option-btn" onclick="checkPractice('dat-ex5', 'welchem', this)">welchem</button>
+                    </div>
+                    <div class="feedback" id="dat-ex5-feedback"></div>
+                </div>
+
+                <div class="score-display" id="dat-score">Richtig: 0 / 5</div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" onclick="nextStep()">Weiter: Alle Formen →</button>
+            </div>
+        </div>
+
+        <!-- STEP 8: Zusammenfassung -->
+        <div class="lesson-step" id="step8">
+            <div class="step-header">
+                <div class="step-number">📋</div>
+                <h2 class="step-title">Alle Formen – Übersicht</h2>
+            </div>
+
+            <div class="key-point">
+                <h3>⚡ Die komplette Tabelle</h3>
+            </div>
+
+            <div id="tableContainer" style="background: white; padding: 20px; border-radius: 15px;">
+                <div style="text-align: center; margin-bottom: 15px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--primary-dark);">
+                    📋 Indefinitpronomen
+                </div>
+                <table class="grammar-table" style="margin: 0;">
+                    <tr>
+                        <th></th>
+                        <th>der (mask.)</th>
+                        <th>das (neutr.)</th>
+                        <th>die (fem.)</th>
+                        <th>die (Plural)</th>
+                    </tr>
+                    <tr class="nom-row">
+                        <td><strong>NOM</strong><br><small>Wer?</small></td>
+                        <td>ein<strong>er</strong> / kein<strong>er</strong></td>
+                        <td>ein<strong>s</strong> / kein<strong>s</strong></td>
+                        <td>ein<strong>e</strong> / kein<strong>e</strong></td>
+                        <td>welch<strong>e</strong> / kein<strong>e</strong></td>
+                    </tr>
+                    <tr class="akk-row">
+                        <td><strong>AKK</strong><br><small>Wen?</small></td>
+                        <td>ein<strong>en</strong> / kein<strong>en</strong></td>
+                        <td>ein<strong>s</strong> / kein<strong>s</strong></td>
+                        <td>ein<strong>e</strong> / kein<strong>e</strong></td>
+                        <td>welch<strong>e</strong> / kein<strong>e</strong></td>
+                    </tr>
+                    <tr class="dat-row">
+                        <td><strong>DAT</strong><br><small>Wem?</small></td>
+                        <td>ein<strong>em</strong> / kein<strong>em</strong></td>
+                        <td>ein<strong>em</strong> / kein<strong>em</strong></td>
+                        <td>ein<strong>er</strong> / kein<strong>er</strong></td>
+                        <td>welch<strong>en</strong> / kein<strong>en</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button onclick="downloadTable()" style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    📥 Tabelle als Bild speichern
+                </button>
+            </div>
+
+            <div class="memory-tip">
+                <h3>So machst du es richtig</h3>
+                <p>1. <strong>Finde das Nomen</strong> – welches Wort?<br>
+                2. <strong>Geschlecht?</strong> – der, die oder das?<br>
+                3. <strong>Kasus?</strong> – Frage: Wer? Wen? oder Wem?<br>
+                4. <strong>Schau in die Tabelle</strong> – fertig! 🎉</p>
+            </div>
+
+            <div class="key-point" style="text-align: center; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); border-left-color: #6c5ce7;">
+                <h3 style="color: white;">🏆 Geschafft!</h3>
+                <p style="color: white;">Du hast die ganze Lektion gemacht! Hier ist dein Geheimwort:</p>
+                <div style="background: white; border-radius: 15px; padding: 20px; margin: 20px 0; font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: #6c5ce7; letter-spacing: 3px;">
+                    RUMPELSTILZCHEN
+                </div>
+                <p style="color: white;">Mit diesem Wort kannst du die <strong>Geheime Arena</strong> öffnen! 🗝️</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" onclick="prevStep()">← Zurück</button>
+                <button class="nav-btn next" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);" onclick="goToTest()">🔮 Geheime Arena →</button>
+            </div>
+        </div>
+
+        <!-- TEST SECTION -->
+        <div class="test-section" id="testSection">
+            <div class="lesson-step active">
+                <!-- Password Gate -->
+                <div class="password-gate" id="passwordGate">
+                    <h2>🔮 Geheime Arena</h2>
+                    <p>Hier kannst du zeigen, was du gelernt hast!<br>Aber zuerst: Wie lautet das Geheimwort?</p>
+                    <input type="text" class="password-input" id="playerName" placeholder="Dein Name..." style="margin-bottom: 10px;">
+                    <br>
+                    <p class="password-error" id="passwordError">❌ Das ist nicht das richtige Wort!</p>
+                    <input type="text" class="password-input" id="passwordInput" placeholder="Geheimwort..." onkeypress="if(event.key === 'Enter') checkPassword()">
+                    <br>
+                    <button class="submit-password" onclick="checkPassword()">🗝️ Arena öffnen</button>
+                </div>
+
+                <!-- Test Content -->
+                <div class="test-content" id="testContent">
+                    <div class="test-header">
+                        <h2>🔮 Geheime Arena</h2>
+                        <p>12 Aufgaben – Nominativ, Akkusativ und Dativ gemischt!</p>
+                        <div class="test-progress">
+                            <div class="test-progress-bar" id="testProgressBar" style="width: 8.33%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Test Questions -->
+                    <div class="test-question active" id="q1">
+                        <span class="question-number">Aufgabe 1 / 12</span>
+                        <span class="case-badge nom">NOMINATIV</span>
+                        <p class="question-text">Hier liegt <strong>ein Buch</strong> (das). → Hier liegt ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(1, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(1, 'eins', this)">eins</button>
+                            <button class="option-btn" onclick="testAnswer(1, 'eine', this)">eine</button>
+                            <button class="option-btn" onclick="testAnswer(1, 'einem', this)">einem</button>
+                        </div>
+                        <div class="feedback" id="testFeedback1"></div>
+                    </div>
+
+                    <div class="test-question" id="q2">
+                        <span class="question-number">Aufgabe 2 / 12</span>
+                        <span class="case-badge akk">AKKUSATIV</span>
+                        <p class="question-text">Ich brauche <strong>einen Stift</strong> (der). → Ich brauche ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(2, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(2, 'einen', this)">einen</button>
+                            <button class="option-btn" onclick="testAnswer(2, 'einem', this)">einem</button>
+                            <button class="option-btn" onclick="testAnswer(2, 'eins', this)">eins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback2"></div>
+                    </div>
+
+                    <div class="test-question" id="q3">
+                        <span class="question-number">Aufgabe 3 / 12</span>
+                        <span class="case-badge dat">DATIV</span>
+                        <p class="question-text">Ich fahre mit <strong>einer Bahn</strong> (die). → Ich fahre mit ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(3, 'eine', this)">eine</button>
+                            <button class="option-btn" onclick="testAnswer(3, 'einen', this)">einen</button>
+                            <button class="option-btn" onclick="testAnswer(3, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(3, 'einem', this)">einem</button>
+                        </div>
+                        <div class="feedback" id="testFeedback3"></div>
+                    </div>
+
+                    <div class="test-question" id="q4">
+                        <span class="question-number">Aufgabe 4 / 12</span>
+                        <span class="case-badge nom">NOMINATIV</span>
+                        <p class="question-text">Das ist <strong>eine Lampe</strong> (die). → Das ist ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(4, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(4, 'eine', this)">eine</button>
+                            <button class="option-btn" onclick="testAnswer(4, 'einen', this)">einen</button>
+                            <button class="option-btn" onclick="testAnswer(4, 'eins', this)">eins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback4"></div>
+                    </div>
+
+                    <div class="test-question" id="q5">
+                        <span class="question-number">Aufgabe 5 / 12</span>
+                        <span class="case-badge akk">AKKUSATIV</span>
+                        <p class="question-text">Hast du <strong>Tomaten</strong> (Plural)? → Hast du ___?</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(5, 'welche', this)">welche</button>
+                            <button class="option-btn" onclick="testAnswer(5, 'welchen', this)">welchen</button>
+                            <button class="option-btn" onclick="testAnswer(5, 'eine', this)">eine</button>
+                            <button class="option-btn" onclick="testAnswer(5, 'einen', this)">einen</button>
+                        </div>
+                        <div class="feedback" id="testFeedback5"></div>
+                    </div>
+
+                    <div class="test-question" id="q6">
+                        <span class="question-number">Aufgabe 6 / 12</span>
+                        <span class="case-badge dat">DATIV</span>
+                        <p class="question-text">Ich helfe <strong>einem Mann</strong> (der). → Ich helfe ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(6, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(6, 'einen', this)">einen</button>
+                            <button class="option-btn" onclick="testAnswer(6, 'einem', this)">einem</button>
+                            <button class="option-btn" onclick="testAnswer(6, 'eins', this)">eins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback6"></div>
+                    </div>
+
+                    <div class="test-question" id="q7">
+                        <span class="question-number">Aufgabe 7 / 12</span>
+                        <span class="case-badge akk">AKKUSATIV</span>
+                        <p class="question-text">Ich sehe <strong>ein Handy</strong> (das). → Ich sehe ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(7, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(7, 'einem', this)">einem</button>
+                            <button class="option-btn" onclick="testAnswer(7, 'eins', this)">eins</button>
+                            <button class="option-btn" onclick="testAnswer(7, 'eine', this)">eine</button>
+                        </div>
+                        <div class="feedback" id="testFeedback7"></div>
+                    </div>
+
+                    <div class="test-question" id="q8">
+                        <span class="question-number">Aufgabe 8 / 12</span>
+                        <span class="case-badge nom">NOMINATIV</span>
+                        <p class="question-text">Ist das <strong>ein Tisch</strong> (der)? – Nein, das ist ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(8, 'keine', this)">keine</button>
+                            <button class="option-btn" onclick="testAnswer(8, 'keiner', this)">keiner</button>
+                            <button class="option-btn" onclick="testAnswer(8, 'keinen', this)">keinen</button>
+                            <button class="option-btn" onclick="testAnswer(8, 'keins', this)">keins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback8"></div>
+                    </div>
+
+                    <div class="test-question" id="q9">
+                        <span class="question-number">Aufgabe 9 / 12</span>
+                        <span class="case-badge dat">DATIV</span>
+                        <p class="question-text">Sie wohnt bei <strong>Freunden</strong> (Plural). → Sie wohnt bei ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(9, 'welche', this)">welche</button>
+                            <button class="option-btn" onclick="testAnswer(9, 'welchen', this)">welchen</button>
+                            <button class="option-btn" onclick="testAnswer(9, 'welchem', this)">welchem</button>
+                            <button class="option-btn" onclick="testAnswer(9, 'welcher', this)">welcher</button>
+                        </div>
+                        <div class="feedback" id="testFeedback9"></div>
+                    </div>
+
+                    <div class="test-question" id="q10">
+                        <span class="question-number">Aufgabe 10 / 12</span>
+                        <span class="case-badge akk">AKKUSATIV</span>
+                        <p class="question-text">Ich suche <strong>eine Wohnung</strong> (die). Ich finde ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(10, 'keiner', this)">keiner</button>
+                            <button class="option-btn" onclick="testAnswer(10, 'keinen', this)">keinen</button>
+                            <button class="option-btn" onclick="testAnswer(10, 'keine', this)">keine</button>
+                            <button class="option-btn" onclick="testAnswer(10, 'keins', this)">keins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback10"></div>
+                    </div>
+
+                    <div class="test-question" id="q11">
+                        <span class="question-number">Aufgabe 11 / 12</span>
+                        <span class="case-badge nom">NOMINATIV</span>
+                        <p class="question-text">Hier stehen <strong>Stühle</strong> (Plural). → Hier stehen ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(11, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(11, 'welchen', this)">welchen</button>
+                            <button class="option-btn" onclick="testAnswer(11, 'welche', this)">welche</button>
+                            <button class="option-btn" onclick="testAnswer(11, 'eine', this)">eine</button>
+                        </div>
+                        <div class="feedback" id="testFeedback11"></div>
+                    </div>
+
+                    <div class="test-question" id="q12">
+                        <span class="question-number">Aufgabe 12 / 12</span>
+                        <span class="case-badge dat">DATIV</span>
+                        <p class="question-text">Ich schreibe mit <strong>einem Kuli</strong> (der). → Ich schreibe mit ___.</p>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="testAnswer(12, 'einer', this)">einer</button>
+                            <button class="option-btn" onclick="testAnswer(12, 'einen', this)">einen</button>
+                            <button class="option-btn" onclick="testAnswer(12, 'einem', this)">einem</button>
+                            <button class="option-btn" onclick="testAnswer(12, 'eins', this)">eins</button>
+                        </div>
+                        <div class="feedback" id="testFeedback12"></div>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="test-results" id="testResults">
+                        <div class="result-icon" id="resultIcon">🎉</div>
+                        <div class="result-score" id="resultScore">0/12</div>
+                        <div class="result-message" id="resultMessage">Super gemacht!</div>
+                        <div class="liga-reward" id="ligaReward" style="display: none; background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center;">
+                            <p style="font-size: 1.1rem; margin-bottom: 10px;">🏅 <strong>Deine Belohnung:</strong></p>
+                            <p style="font-family: 'Fredoka One', cursive; font-size: 2rem; color: #e17055;">+8 Punkte</p>
+                            <p style="color: #636e72;">für deine Liga!</p>
+                            <p style="margin-top: 15px; font-size: 0.95rem; color: #2d3436;">📋 Zeig das Ergebnis deinem Lehrer!</p>
+                        </div>
+                        
+                        <!-- Zertifikat -->
+                        <div id="certificateContainer" style="display: none; margin: 25px 0;">
+                            <div id="certificate" style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border: 4px solid #f4d03f; border-radius: 20px; padding: 30px; text-align: center; position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: 10px; left: 10px; font-size: 2rem; opacity: 0.3;">⭐</div>
+                                <div style="position: absolute; top: 10px; right: 10px; font-size: 2rem; opacity: 0.3;">⭐</div>
+                                <div style="position: absolute; bottom: 10px; left: 10px; font-size: 2rem; opacity: 0.3;">⭐</div>
+                                <div style="position: absolute; bottom: 10px; right: 10px; font-size: 2rem; opacity: 0.3;">⭐</div>
+                                
+                                <div style="font-size: 3rem; margin-bottom: 10px;">🏆</div>
+                                <h2 style="font-family: 'Fredoka One', cursive; color: #b8860b; font-size: 1.8rem; margin-bottom: 5px;">ZERTIFIKAT</h2>
+                                <p style="color: #666; font-size: 0.95rem; margin-bottom: 20px;">Indefinitpronomen – Geheime Arena</p>
+                                
+                                <p style="color: #333; font-size: 1.1rem;">Dies bestätigt, dass</p>
+                                <p id="certName" style="font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: #2d6a4f; margin: 15px 0; padding: 10px; border-bottom: 3px solid #2d6a4f;">---</p>
+                                
+                                <p style="color: #333; font-size: 1.1rem;">die Geheime Arena erfolgreich<br>abgeschlossen hat!</p>
+                                
+                                <div style="display: flex; justify-content: center; gap: 30px; margin: 20px 0;">
+                                    <div style="text-align: center;">
+                                        <p style="font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #e17055;" id="certScore">0/12</p>
+                                        <p style="color: #666; font-size: 0.85rem;">Punkte</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p style="font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #6c5ce7;">+8</p>
+                                        <p style="color: #666; font-size: 0.85rem;">Liga-Punkte</p>
+                                    </div>
+                                </div>
+                                
+                                <p id="certDate" style="color: #999; font-size: 0.85rem; margin-top: 15px;">---</p>
+                            </div>
+                            
+                            <button onclick="downloadCertificate()" style="background: linear-gradient(135deg, #f4d03f 0%, #b8860b 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                📥 Zertifikat speichern
+                            </button>
+                        </div>
+                        
+                        <button class="retry-btn" onclick="retryTest()">🔄 Noch einmal</button>
+                        <button class="retry-btn" style="background: #e0e0e0; color: #333;" onclick="backToLesson()">← Zurück zur Lektion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0; // 0 = cover
+        const totalSteps = 8;
+        let completedSteps = new Set();
+
+        function startLesson() {
+            document.getElementById('cover').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            currentStep = 1;
+            updateNavButtons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToCover() {
+            document.getElementById('testSection').classList.remove('active');
+            document.querySelectorAll('.lesson-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('cover').classList.add('active');
+            currentStep = 0;
+            updateNavButtons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateNavButtons() {
+            document.querySelectorAll('.step-nav .step-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index === currentStep) btn.classList.add('active');
+            });
+        }
+
+        // Practice answers
+        const practiceAnswers = {
+            'nom-ex1': { correct: 'einer', explanation: 'der Löffel → maskulin + Nominativ = einer ✓' },
+            'nom-ex2': { correct: 'eine', explanation: 'die Gabel → feminin + Nominativ = eine ✓' },
+            'nom-ex3': { correct: 'eins', explanation: 'das Messer → neutral + Nominativ = eins ✓' },
+            'nom-ex4': { correct: 'welche', explanation: 'die Teller → Plural + Nominativ = welche ✓' },
+            'nom-ex5': { correct: 'keiner', explanation: 'der Computer → maskulin + Nominativ = keiner ✓' },
+            
+            'akk-ex1': { correct: 'einen', explanation: 'der Kugelschreiber → maskulin + Akkusativ = einen ✓' },
+            'akk-ex2': { correct: 'eine', explanation: 'die Schere → feminin + Akkusativ = eine ✓' },
+            'akk-ex3': { correct: 'eins', explanation: 'das Buch → neutral + Akkusativ = eins ✓' },
+            'akk-ex4': { correct: 'welche', explanation: 'die Äpfel → Plural + Akkusativ = welche ✓' },
+            'akk-ex5': { correct: 'keinen', explanation: 'der Parkplatz → maskulin + Akkusativ = keinen ✓' },
+            
+            'dat-ex1': { correct: 'einem', explanation: 'der Bus → maskulin + Dativ = einem ✓' },
+            'dat-ex2': { correct: 'einer', explanation: 'die Familie → feminin + Dativ = einer ✓' },
+            'dat-ex3': { correct: 'einem', explanation: 'der Ball → maskulin + Dativ = einem ✓' },
+            'dat-ex4': { correct: 'einem', explanation: 'das Land → neutral + Dativ = einem ✓' },
+            'dat-ex5': { correct: 'welchen', explanation: 'die Freunde → Plural + Dativ = welchen ✓' }
+        };
+
+        // Practice scores
+        let practiceScores = {
+            'nom': 0,
+            'akk': 0,
+            'dat': 0
+        };
+
+        // Test answers
+        const testAnswers = {
+            1: { correct: 'eins', explanation: 'das Buch → neutral + Nominativ = eins' },
+            2: { correct: 'einen', explanation: 'der Stift → maskulin + Akkusativ = einen' },
+            3: { correct: 'einer', explanation: 'die Bahn → feminin + Dativ = einer' },
+            4: { correct: 'eine', explanation: 'die Lampe → feminin + Nominativ = eine' },
+            5: { correct: 'welche', explanation: 'Tomaten → Plural + Akkusativ = welche' },
+            6: { correct: 'einem', explanation: 'der Mann → maskulin + Dativ = einem' },
+            7: { correct: 'eins', explanation: 'das Handy → neutral + Akkusativ = eins' },
+            8: { correct: 'keiner', explanation: 'der Tisch → maskulin + Nominativ = keiner' },
+            9: { correct: 'welchen', explanation: 'Freunde → Plural + Dativ = welchen' },
+            10: { correct: 'keine', explanation: 'die Wohnung → feminin + Akkusativ = keine' },
+            11: { correct: 'welche', explanation: 'Stühle → Plural + Nominativ = welche' },
+            12: { correct: 'einem', explanation: 'der Kuli → maskulin + Dativ = einem' }
+        };
+
+        let testScore = 0;
+        let currentTestQuestion = 1;
+        const totalTestQuestions = 12;
+        let testAnswered = new Set();
+        let playerName = '';
+
+        function goToStep(step) {
+            if (step < 1 || step > totalSteps) return;
+            
+            document.getElementById('testSection').classList.remove('active');
+            document.getElementById('cover').classList.remove('active');
+            document.querySelectorAll('.lesson-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            
+            currentStep = step;
+            updateNavButtons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep() {
+            completedSteps.add(currentStep);
+            updateStepButtons();
+            if (currentStep < totalSteps) {
+                goToStep(currentStep + 1);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                goToStep(currentStep - 1);
+            }
+        }
+
+        function updateStepButtons() {
+            document.querySelectorAll('.step-btn').forEach((btn, index) => {
+                if (completedSteps.has(index + 1) && index < totalSteps) {
+                    btn.classList.add('completed');
+                }
+            });
+        }
+
+        function checkPractice(exerciseId, answer, button) {
+            const exercise = document.getElementById(exerciseId);
+            const feedback = document.getElementById(exerciseId + '-feedback');
+            const data = practiceAnswers[exerciseId];
+            const caseType = exerciseId.split('-')[0];
+            
+            exercise.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === data.correct) {
+                    btn.classList.add('correct-answer');
+                }
+            });
+            
+            if (answer === data.correct) {
+                button.classList.add('correct-answer');
+                exercise.classList.add('correct');
+                feedback.innerHTML = '✅ ' + data.explanation;
+                feedback.className = 'feedback show correct';
+                practiceScores[caseType]++;
+            } else {
+                button.classList.add('wrong-answer');
+                exercise.classList.add('incorrect');
+                feedback.innerHTML = '❌ ' + data.explanation;
+                feedback.className = 'feedback show incorrect';
+            }
+            
+            document.getElementById(caseType + '-score').textContent = 'Richtig: ' + practiceScores[caseType] + ' / 5';
+        }
+
+        function goToTest() {
+            for (let i = 1; i <= totalSteps; i++) {
+                completedSteps.add(i);
+            }
+            updateStepButtons();
+            
+            document.getElementById('cover').classList.remove('active');
+            document.querySelectorAll('.lesson-step').forEach(el => el.classList.remove('active'));
+            document.getElementById('testSection').classList.add('active');
+            document.querySelector('#testSection .lesson-step').classList.add('active');
+            
+            currentStep = totalSteps + 1;
+            document.querySelectorAll('.step-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.test-btn').classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value.toLowerCase().trim();
+            playerName = document.getElementById('playerName').value.trim() || 'Teilnehmer';
+            
+            if (password === 'rumpelstilzchen') {
+                document.getElementById('passwordGate').style.display = 'none';
+                document.getElementById('testContent').classList.add('active');
+                resetTest();
+            } else {
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        function testAnswer(questionNum, answer, button) {
+            if (testAnswered.has(questionNum)) return;
+            testAnswered.add(questionNum);
+            
+            const question = document.getElementById('q' + questionNum);
+            const feedback = document.getElementById('testFeedback' + questionNum);
+            const data = testAnswers[questionNum];
+            
+            question.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === data.correct) {
+                    btn.classList.add('correct-answer');
+                }
+            });
+            
+            if (answer === data.correct) {
+                button.classList.add('correct-answer');
+                feedback.innerHTML = '✅ Richtig! ' + data.explanation;
+                feedback.className = 'feedback show correct';
+                testScore++;
+            } else {
+                button.classList.add('wrong-answer');
+                feedback.innerHTML = '❌ ' + data.explanation;
+                feedback.className = 'feedback show incorrect';
+            }
+            
+            setTimeout(() => {
+                if (currentTestQuestion < totalTestQuestions) {
+                    document.getElementById('q' + currentTestQuestion).classList.remove('active');
+                    currentTestQuestion++;
+                    document.getElementById('q' + currentTestQuestion).classList.add('active');
+                    document.getElementById('testProgressBar').style.width = ((currentTestQuestion / totalTestQuestions) * 100) + '%';
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+
+        function showResults() {
+            document.getElementById('q' + totalTestQuestions).classList.remove('active');
+            document.getElementById('testResults').classList.add('active');
+            document.getElementById('resultScore').textContent = testScore + '/' + totalTestQuestions;
+            
+            const percent = (testScore / totalTestQuestions) * 100;
+            if (percent >= 90) {
+                document.getElementById('resultIcon').textContent = '🏆';
+                document.getElementById('resultMessage').textContent = 'Wow! Du bist ein Meister!';
+                document.getElementById('ligaReward').style.display = 'block';
+                showCertificate();
+            } else if (percent >= 75) {
+                document.getElementById('resultIcon').textContent = '🎉';
+                document.getElementById('resultMessage').textContent = 'Super! Das hast du gut gemacht!';
+                document.getElementById('ligaReward').style.display = 'block';
+                showCertificate();
+            } else if (percent >= 50) {
+                document.getElementById('resultIcon').textContent = '👍';
+                document.getElementById('resultMessage').textContent = 'Nicht schlecht! Übe noch ein bisschen!';
+            } else {
+                document.getElementById('resultIcon').textContent = '💪';
+                document.getElementById('resultMessage').textContent = 'Übung macht den Meister! Versuch es nochmal!';
+            }
+        }
+
+        function showCertificate() {
+            document.getElementById('certificateContainer').style.display = 'block';
+            document.getElementById('certName').textContent = playerName;
+            document.getElementById('certScore').textContent = testScore + '/' + totalTestQuestions;
+            
+            const today = new Date();
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            document.getElementById('certDate').textContent = today.toLocaleDateString('de-DE', options);
+        }
+
+        function downloadCertificate() {
+            const cert = document.getElementById('certificate');
+            html2canvas(cert, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Zertifikat-Indefinitpronomen-' + playerName.replace(/\s+/g, '_') + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function retryTest() {
+            resetTest();
+            document.getElementById('testResults').classList.remove('active');
+            document.getElementById('q1').classList.add('active');
+        }
+
+        function resetTest() {
+            testScore = 0;
+            currentTestQuestion = 1;
+            testAnswered.clear();
+            document.getElementById('testProgressBar').style.width = (100 / totalTestQuestions) + '%';
+            document.getElementById('ligaReward').style.display = 'none';
+            document.getElementById('certificateContainer').style.display = 'none';
+            
+            for (let i = 1; i <= totalTestQuestions; i++) {
+                const question = document.getElementById('q' + i);
+                question.classList.remove('active');
+                question.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('correct-answer', 'wrong-answer');
+                });
+                document.getElementById('testFeedback' + i).className = 'feedback';
+            }
+            
+            document.getElementById('q1').classList.add('active');
+            document.getElementById('testResults').classList.remove('active');
+        }
+
+        function backToLesson() {
+            document.getElementById('testSection').classList.remove('active');
+            goToCover();
+        }
+
+        function downloadTable() {
+            const table = document.getElementById('tableContainer');
+            html2canvas(table, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Indefinitpronomen-Tabelle.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+<script data-goatcounter="https://aguitoo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
